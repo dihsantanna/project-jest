@@ -6,31 +6,35 @@ jobs:
   eslint:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.4.4
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set node version
+        uses: actions/setup-node@v1.4.4
         with:
           node-version: '12'
+
+      - name: Install Dependencies
+        uses: npm install
+
       - name: ESLint
-        uses: betrybe/eslint-linter-action@v2.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: npm run lint
 
   evaluator_job:
     runs-on: ubuntu-18.04
     name: Evaluator job
     needs: eslint
     steps:
-      - uses: actions/checkout@v2
-      - name: Jest evaluator step
-        id: jest
-        uses: betrybe/jest-evaluator-action@v7
-        with:
-          repository-test-name: 'betrybe/sd-0x-project-jest-tests'
-          repository-test-branch: 'improve/describes'
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Store evaluation step
-        uses: betrybe/store-evaluation-action@v2
+      - name: Set node version
+        uses: actions/setup-node@v1.4.4
         with:
-          evaluation-data: ${{ steps.jest.outputs.result }}
-          environment: production
-          pr-number: ${{ github.event.number }}
+          node-version: '12'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Jest evaluator step
+        run: npm run test
