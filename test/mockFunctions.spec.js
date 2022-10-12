@@ -1,3 +1,26 @@
+const mockedAdd = jest.fn((a, b) => a + b);
+const mockedSubtract = jest.fn((a, b) => a - b);
+const mockedMultiply = jest.fn((a, b) => a * b);
+const mockedDivide = jest.fn((a, b) => a / b);
+const mockedPower = jest.fn((a, b) => a ** b);
+const mockedFactorial = jest.fn((a) => {
+  if (a === 0 || a === 1) return 1;
+  let fact = a;
+  for (let i = a - 1; i >= 1; i -= 1) {
+    fact *= i;
+  }
+  return fact;
+});
+
+jest.mock('../src/mockFunctions', () => ({
+  add: mockedAdd,
+  subtract: mockedSubtract,
+  multiply: mockedMultiply,
+  divide: mockedDivide,
+  power: mockedPower,
+  factorial: mockedFactorial,
+}));
+
 const mockFunctions = require('../src/mockFunctions');
 
 /*
@@ -15,8 +38,6 @@ ATENÇÃO!!! Edite apenas este arquivo. Não altere os arquivos da pasta 'src'.
 */
 
 describe('3 - Verifica as funções e os mocks', () => {
-  // Crie suas mock functions aqui
-
   test('testa função add', () => {
     expect(mockFunctions.add(1, 2)).toEqual(3);
     expect(mockFunctions.add(8, 37)).toEqual(45);
