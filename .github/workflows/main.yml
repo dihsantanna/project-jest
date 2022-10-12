@@ -25,12 +25,16 @@ jobs:
     name: Evaluator job
     needs: eslint
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set node version
+        uses: actions/setup-node@v1.4.4
         with:
           node-version: '12'
 
-      - name: Install Dependencies
-        uses: npm install
-      
-      - name: Jest
-        uses: npm run test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Jest evaluator step
+        run: npm run test
