@@ -6,14 +6,13 @@ jobs:
   eslint:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.4.4
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set node version
+        uses: actions/setup-node@v1.4.4
         with:
           node-version: '12'
-
-      - name: Install Dependencies
-        uses: npm i
-      
       - name: ESLint
         uses: npm run lint
 
@@ -23,12 +22,11 @@ jobs:
     needs: eslint
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.4.4
         with:
           node-version: '12'
 
       - name: Install Dependencies
-        uses: npm i
+        uses: npm install
       
       - name: Jest
         uses: npm run test
